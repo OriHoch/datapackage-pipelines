@@ -1,0 +1,44 @@
+run_pipeline
+--
+{
+    "pipeline": [
+        {
+            "run": "add_metadata",
+            "parameters": {"name": "run-pipeline-test"}
+        },
+        {
+            "run": "add_resource",
+            "parameters": {
+                "name": "test_resource",
+                "url": "file://data/sample.txt",
+                "format": "txt"
+            }
+        },
+        {
+            "run": "stream_remote_resources"
+        }
+    ]
+}
+--
+{}
+--
+--
+{
+    "name": "run-pipeline-test",
+    "resources": [
+        {
+            "name": "test_resource",
+            "path": "data/test_resource.csv",
+            "format": "txt",
+            "schema": {
+                "fields": [
+                    {"name": "data", "type": "string"}
+                ]
+            }
+        }
+    ]
+}
+--
+{"data": "This is a plain text file - not a CSV file!"}
+{"data": "testing"}
+{"data": "one two three"}
