@@ -76,11 +76,7 @@ def make_hierarchies(statuses):
     return groups
 
 
-blueprint = Blueprint('dpp', 'dpp')
-
-
-@blueprint.route("")
-def main():
+def get_main_context():
     statuses = sorted(status.all_statuses(), key=lambda x: x.get('id'))
     for pipeline in statuses:
         for key in ['ended', 'last_success', 'started']:
@@ -116,10 +112,26 @@ def main():
                      if item[2](item[0], p)])
         item.append(len(item[-1]))
         item.append(make_hierarchies(item[-2]))
+    return {"categories": categories}
+
+
+blueprint = Blueprint('dpp', 'dpp')
+
+
+@blueprint.route("")
+def main():
     return render_template('dashboard.html',
-                           categories=categories,
                            yamlize=yamlize,
-                           markdown=markdown)
+                           markdown=markdown,
+                           **get_main_context())
+
+
+@blueprint.route("api/raw/main")
+def pipeline_raw_api_main():
+    context = get_main_context()
+    for item in context["categories"]:
+        item[2] = None
+    return jsonify(context)
 
 
 @blueprint.route("api/raw/<path:pipeline_id>")
