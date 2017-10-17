@@ -134,6 +134,14 @@ def pipeline_raw_api_main():
     return jsonify(context)
 
 
+@blueprint.route("api/raw/status")
+def pipeline_raw_api_status():
+    pipelines = sorted(status.all_statuses(), key=lambda x: x.get('id'))
+    for pipeline in pipelines:
+        del pipeline["pipeline"]
+    return jsonify(pipelines)
+
+
 @blueprint.route("api/raw/<path:pipeline_id>")
 def pipeline_raw_api(pipeline_id):
     if not pipeline_id.startswith('./'):
