@@ -600,6 +600,57 @@ The resulting dataset could look like:
 | Vertigo 2 (2016) | Lindsay Lohan | Lee Ka Shing | 2          | 11000000       | 22000000       |
 | ...              |               |              |            |                |                |
 
+### ***`split`***
+
+Split one or more streamed resources to two or more output resources
+
+_Parameters_:
+
+- `resources` - Which resources to split. Same semantics as `resources` in `stream_remote_resources`.
+- `output-resources` - Mapping of output resource name and related mappings. Keys are resource names or format strings, values are one of:
+  - `integer` - get the given number of lines
+  - `string` -
+  - attribute
+  -
+  - instead of key-value mapping, can provide a number which will split the resource based on number of rows processed
+
+*Examples*:
+
+Split a package based on filter conditions, rows that match multiple resources are allowed.
+```yaml
+- run: split
+  parameters:
+    resources: world_population
+    output-resources:
+      america_and_europe_world_population:
+        - continent: america
+        - continent: europe
+      english_world_population:
+        - language: english
+```
+
+Get a sample of first 10 rows of data from a large package, the sampled rows are also yielded in the main resource
+```yaml
+- run: split
+  parameters:
+    resources: world_population
+    output-resources:
+      sample: 10
+      world_population:
+```
+
+For maximum efficiency, sort the input resource according to the split conditions:
+```yaml
+- run: sort
+  parameters:
+    resources: lots_of_data
+    sort-by: "{year}"
+- run: split
+  parameters:
+    resources: lots_of_data
+    output-resources:
+      "lots_of_data_{year}":
+```
 
 ### ***`filter`***
 

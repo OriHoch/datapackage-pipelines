@@ -1,0 +1,69 @@
+split
+--
+{
+    "resources": "world_population",
+    "output-resources": {
+        "america_and_europe_world_population": [
+            {"continent": "america"},
+            {"continent": "europe"}
+        ],
+        "english_world_population": [
+            {"language": "english"}
+        ]
+    }
+}
+--
+{
+    "name": "test",
+    "resources": [
+        {
+            "name": "world_population",
+            "dpp:streaming": true,
+            "path": "world_population.csv",
+            "schema": { "fields": [
+                {"name": "continent", "type": "string"},
+                {"name": "language", "type": "string"},
+                {"name": "population", "type": "integer"}
+            ]}
+        }
+    ]
+}
+--
+{"continent":"america","language":"english","population":11}
+{"continent":"europe","language":"english","population":22}
+{"continent":"europe","language":"french","population":33}
+--
+{
+    "name": "test",
+    "resources": [
+        {
+            "name": "america_and_europe_world_population",
+            "dpp:streaming": true,
+            "path": "america_and_europe_world_population.csv",
+            "schema": { "fields": [
+                {"name": "continent", "type": "string"},
+                {"name": "language", "type": "string"},
+                {"name": "population", "type": "integer"}
+            ]}
+        },
+        {
+            "name": "english_world_population",
+            "dpp:streaming": true,
+            "path": "english_world_population.csv",
+            "schema": { "fields": [
+                {"name": "continent", "type": "string"},
+                {"name": "language", "type": "string"},
+                {"name": "population", "type": "integer"}
+            ]}
+        }
+    ]
+}
+--
+{"continent":"america","language":"english","population":11}
+{"continent":"europe","language":"english","population":22}
+{"continent":"europe","language":"french","population":33}
+
+{"continent":"america","language":"english","population":11}
+{"continent":"europe","language":"english","population":22}
+
+{}
