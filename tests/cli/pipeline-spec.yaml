@@ -72,3 +72,11 @@ custom-formatters:
         resource-hash: ''
       file-formatters:
         xlsx: custom_formatters.xlsx_format.XLSXFormat
+
+load-resource-progress-log:
+  pipeline:
+  - run: load_resource
+    parameters:
+      url: ../data/datapackage.json
+      resource: my-spiffy-resource
+      log-progress-rows: 2
