@@ -10,4 +10,16 @@ datapackage_pipelines.egg-info/
 dist/
 samples/
 tests/
-
+.coverage*
+.dockerignore
+.dpp
+.gitignore
+.pytest*
+.travis.yml
+CONTRIBUTING.md
+Dockerfile
+Pipfile*
+*.zip
+pylama.ini
+tox.ini
+__pycache__
